@@ -20,6 +20,7 @@ public class PublicacaoController {
         if (!pub.getTituloPublicacao().isEmpty() && !pub.getTextoPublicacao().isEmpty() && pub.getIdUsuario() != null){
             pub.setAcaoPublicacao("salvar");
             pub.setDataHoraPublicacao(pub.getDataHoraPublicacao());
+            pub.setVisualisacaoPublicacao(0);
             ProducerRecord<Integer, PublicacaoModel> producerRecord = new ProducerRecord<>("Postagem", null, pub);
             kafkaTemplate.send(producerRecord);
             return new ResponseEntity<>(HttpStatusCode.valueOf(200));
@@ -30,10 +31,9 @@ public class PublicacaoController {
 
     @PutMapping(value = "alterarPublicacao/{id}")
     public ResponseEntity<String> alterarPublicacao(@RequestBody PublicacaoModel pub, @PathVariable("id") Integer id){
-        if(!pub.getTituloPublicacao().isEmpty() && !pub.getTextoPublicacao().isEmpty() && id != null){
+        if(id != null){
             pub.setIdPublicacao(id);
             pub.setAcaoPublicacao("alterar");
-            pub.setDataHoraPublicacao(pub.getDataHoraPublicacao());
             ProducerRecord<Integer, PublicacaoModel> producerRecord = new ProducerRecord<>("Postagem", id, pub);
             kafkaTemplate.send(producerRecord);
             return new ResponseEntity<>(HttpStatusCode.valueOf(200));
