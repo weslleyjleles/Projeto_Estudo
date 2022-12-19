@@ -33,7 +33,7 @@ public class CommentController {
 
 	}
 
-	@PutMapping("alterarComentario")
+	@PutMapping("alterarComentario/{id}")
 	public ResponseEntity<CommentModel> alterarComentario(@RequestBody CommentModel comment) {
 		if (!comment.getTextoComment().isEmpty() && comment.getIdComment() != null) {
 			comment.setAcaoComment("alterar");
